@@ -40,6 +40,20 @@ Start docker containers. Do not close this terminal:
 $ docker-compose up
 ```
 
+* * *
+#### Test your docker
+In another terminal, access the container like this:
+```sh
+$ docker exec -it lg-server bash
+```
+
+#### Test your phpMyAdmin
+In another tab of the web browser, open the following page:
+```sh
+http://localhost:8087/
+```
+* * *
+
 ## Credits
 This docker implementation:
   - Henry Lomas - <henry@cajanegra.com.ec>
