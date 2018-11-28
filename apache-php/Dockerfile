@@ -66,6 +66,14 @@ RUN curl -sS https://getcomposer.org/installer | php && \
     chmod +x /usr/local/bin/composer
 
 # -----------------------------------------------------------------------------
+# Install NodeJS
+# -----------------------------------------------------------------------------
+RUN yum install -y yum-plugin-ovl
+RUN yum install -y gcc gcc-c++ make
+RUN curl -sL https://rpm.nodesource.com/setup_6.x | bash -
+RUN yum install -y nodejs
+
+# -----------------------------------------------------------------------------
 # Phantomjs configuration
 # -----------------------------------------------------------------------------
 COPY config/phantomjs /bin/phantomjs
