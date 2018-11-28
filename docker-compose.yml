@@ -1,0 +1,56 @@
+version: '2'
+services:
+  clg-web:
+    build: ./apache-php/.
+    restart: always
+    container_name: lg-server
+    networks:
+      lg-net:
+        ipv4_address: 20.20.20.2
+    ports:
+      - "80:80"
+    volumes:
+      - ../volumes/lg-server:/var/www/leadsgenerator
+      - ../volumes/share:/mnt/share
+      - ../volumes/log:/var/www/leadsgenerator/log
+    links:
+      - clg-mysql
+  clg-mysql:
+    build: ./mysql/.
+    restart: always
+    container_name: lg-mysql
+    networks:
+      lg-net:
+        ipv4_address: 20.20.20.3
+    ports:
+      - "3306:3306"
+    volumes:
+      - lg-db-volume:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: l3adsg3n3rat0ro0t
+      MYSQL_USER: leadsuser
+      MYSQL_PASSWORD: l3adsg3n3rat0r
+      MYSQL_DATABASE: leadsgenerator
+  clg-phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    container_name: lg-phpmyadmin
+    networks:
+      lg-net:
+        ipv4_address: 20.20.20.4
+    ports:
+      - "8087:80"
+    links:
+      - clg-mysql
+    environment:
+      PMA_HOST: lg-mysql
+      PMA_PORT: 3306
+volumes:
+  lg-db-volume:
+networks:
+  lg-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 20.20.20.0/16
+          gateway: 20.20.20.1
